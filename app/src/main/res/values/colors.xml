@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#203DD1</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="biruku">#203DD1</color>
+    <color name="abuTeks">#8D8D8D</color>
+    <color name="putihPrimary">#FFFFFF</color>
+    <color name="abuPrimary">#B9B9B9</color>
+    <color name="biruSecondary">#258FF3</color>
+    <color name="blackPrimaryy">#21272C</color>
+    <color name="bgPrimary">#EDF1F8</color>
+    <color name="brokenWhite">#EDF1F8</color>
+    <color name="greyPrimary">#8D8D8D</color>
+    <color name="greenMoney">#1ABC9C</color>
+
+</resources>
