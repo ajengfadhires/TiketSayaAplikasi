@@ -23,6 +23,7 @@ public class RegisterOneAct extends AppCompatActivity {
     Button btn_continue;
     LinearLayout btn_back;
     EditText username, password, email_address;
+
     DatabaseReference reference;
 
     String USERNAME_KEY = "usernamekey";
@@ -43,6 +44,10 @@ public class RegisterOneAct extends AppCompatActivity {
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //mengubah state button ketika diklik biar jadi "loading"
+                btn_continue.setEnabled(false);
+                btn_continue.setText("Loading...");
 
                 //menyimpan data pada local storage (hp)
                 SharedPreferences sharedPreferences = getSharedPreferences(USERNAME_KEY, MODE_PRIVATE);

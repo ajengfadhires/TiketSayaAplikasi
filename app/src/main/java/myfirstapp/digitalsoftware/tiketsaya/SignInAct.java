@@ -17,6 +17,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+
+import java.lang.ref.Reference;
 
 public class SignInAct extends AppCompatActivity {
 
@@ -42,9 +45,21 @@ public class SignInAct extends AppCompatActivity {
         xpassword = findViewById(R.id.xpassword);
 
 
+        btn_new_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent gotoregisterone = new Intent(SignInAct.this,RegisterOneAct.class);
+                startActivity(gotoregisterone);
+            }
+        });
+
         btn_sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //ubah state menjadi 'loading' setelah ditekan
+                btn_sign_in.setEnabled(false);
+                btn_sign_in.setText("Loading ... ");
 
                 final String username = xusername.getText().toString();
                 final String password = xpassword.getText().toString();
@@ -56,13 +71,14 @@ public class SignInAct extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()){
+
                             //ambil data password dari firebase
                             String passwordFromFirebase = dataSnapshot.child("password").getValue().toString();
 
-                            //validasi password dgn password yg ada di firebase
-                            if (password.equals(passwordFromFirebase)){
+                            //validasi password
+                            if(password.equals(passwordFromFirebase)){
 
-                                //menyimpan data pada local storage (hp)
+                             //simpan username (key) kepada local
                                 SharedPreferences sharedPreferences = getSharedPreferences(USERNAME_KEY, MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString(username_key, xusername.getText().toString());
@@ -72,30 +88,28 @@ public class SignInAct extends AppCompatActivity {
                                 Intent gotohome = new Intent(SignInAct.this,HomeAct.class);
                                 startActivity(gotohome);
                             }
-                            else {
-                                Toast.makeText(getApplicationContext(), "Password Salah", Toast.LENGTH_SHORT).show();
+                            else{
+                                Toast.makeText(getApplicationContext(), "Password salah", Toast.LENGTH_SHORT).show();
                             }
+
                         }
+
                         else {
-                            Toast.makeText(getApplicationContext(), "Username tidak ditemukan", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Username tidak ada", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(getApplicationContext(), "Database Error!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Database error!", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
             }
         });
 
-        btn_new_account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent gotoregisterone = new Intent(SignInAct.this,RegisterOneAct.class);
-                startActivity(gotoregisterone);
-            }
-        });
+
+
     }
 }

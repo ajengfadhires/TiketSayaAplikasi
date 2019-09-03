@@ -35,7 +35,7 @@ public class RegisterTwoAct extends AppCompatActivity {
     EditText bio, full_name;
 
     Uri photo_location;
-    Integer photo_size_max = 1;
+    Integer photo_max = 1;
 
     DatabaseReference reference;
     StorageReference storage;
@@ -60,7 +60,7 @@ public class RegisterTwoAct extends AppCompatActivity {
         bio = findViewById(R.id.bio);
         full_name = findViewById(R.id.full_name);
 
-        //set on click utk btn photo
+        //set on click
         btn_add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +69,6 @@ public class RegisterTwoAct extends AppCompatActivity {
             }
         });
 
-        //on click dan intent utk btn pindah ke page lainnya
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +83,7 @@ public class RegisterTwoAct extends AppCompatActivity {
 
                 //validasi untuk file (apakah ada?)
                 if (photo_location != null){
-                    StorageReference storageReference1 =
+                    final StorageReference storageReference1 =
                             storage.child(System.currentTimeMillis() + "." +
                                     getFileExtension(photo_location));
 
@@ -92,23 +91,34 @@ public class RegisterTwoAct extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            String uri_photo = taskSnapshot.getStorage().getDownloadUrl().toString();
-                            reference.getRef().child("url_photo_profile").setValue(uri_photo);
-                            reference.getRef().child("full_name").setValue(full_name.getText().toString());
-                            reference.getRef().child("bio").setValue(bio.getText().toString());
 
+                            storageReference1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String uri_photo = uri.toString();
+                                    reference.getRef().child("url_photo_profile").setValue(uri_photo);
+                                    reference.getRef().child("full_name").setValue(full_name.getText().toString());
+                                    reference.getRef().child("bio").setValue(bio.getText().toString());
+                                }
+                            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    //berpindah activity to the next page
+                                    Intent gotosuccess = new Intent(RegisterTwoAct.this,SuccessAct.class);
+                                    startActivity(gotosuccess);
+
+                                }
+                            });
                         }
                     }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                             //berpindah activity to the next page
-                            Intent gotosuccess = new Intent(RegisterTwoAct.this,SuccessAct.class);
-                            startActivity(gotosuccess);
+   //                         Intent gotosuccess = new Intent(RegisterTwoAct.this,SuccessAct.class);
+     //                       startActivity(gotosuccess);
                         }
                     });
                 }
-
-
             }
         });
 
@@ -132,7 +142,7 @@ public class RegisterTwoAct extends AppCompatActivity {
         Intent pic = new Intent();
         pic.setType("image/*");
         pic.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(pic, photo_size_max);
+        startActivityForResult(pic, photo_max);
 
     }
 
@@ -140,7 +150,7 @@ public class RegisterTwoAct extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-         if (requestCode == photo_size_max && resultCode == RESULT_OK && data != null && data.getData() != null)
+         if (requestCode == photo_max && resultCode == RESULT_OK && data != null && data.getData() != null)
          {
              photo_location = data.getData();
              Picasso.with(this).load(photo_location).centerCrop().fit().into(pic_photo_register_user);
