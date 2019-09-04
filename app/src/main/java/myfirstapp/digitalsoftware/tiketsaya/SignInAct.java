@@ -59,7 +59,7 @@ public class SignInAct extends AppCompatActivity {
 
                 //ubah state menjadi 'loading' setelah ditekan
                 btn_sign_in.setEnabled(false);
-                btn_sign_in.setText("Loading ... ");
+                btn_sign_in .setText("Loading ... ");
 
                 final String username = xusername.getText().toString();
                 final String password = xpassword.getText().toString();

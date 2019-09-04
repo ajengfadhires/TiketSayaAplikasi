@@ -88,7 +88,7 @@ public class RegisterTwoAct extends AppCompatActivity {
                                     getFileExtension(photo_location));
 
                     storageReference1.putFile(photo_location)
-                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            .addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 

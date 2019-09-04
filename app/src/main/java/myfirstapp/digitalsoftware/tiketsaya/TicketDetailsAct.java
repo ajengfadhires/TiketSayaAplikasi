@@ -37,6 +37,8 @@ public class TicketDetailsAct extends AppCompatActivity {
 
         btn_buy_ticket = findViewById(R.id.btn_buy_ticket);
         btn_back = findViewById(R.id.btn_back);
+        header_ticket_detail = findViewById(R.id.header_ticket_detail);
+
 
         title_ticket = findViewById(R.id.title_ticket);
         location_ticket = findViewById(R.id.location_ticket);
@@ -44,7 +46,7 @@ public class TicketDetailsAct extends AppCompatActivity {
         wifi_available = findViewById(R.id.wifi_available);
         festival = findViewById(R.id.festival);
         short_desc_ticket = findViewById(R.id.short_desc_ticket);
-        Picasso.with(HomeAct.this)
+        Picasso.with(TicketDetailsAct.this)
                 .load(dataSnapshot.child("url_thumbnail")
                         .getValue().toString()).centerCrop().fit()
                 .into(header_ticket_detail);

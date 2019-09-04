@@ -66,10 +66,10 @@ public class HomeAct extends AppCompatActivity {
                 full_name.setText(dataSnapshot.child("full_name").getValue().toString());
                 user_balance.setText("USD " + dataSnapshot.child("user_balance").getValue().toString());
                 bio.setText(dataSnapshot.child("bio").getValue().toString());
-                Picasso.with(HomeAct.this)
-                        .load(dataSnapshot.child("url_photo_profile")
-                            .getValue().toString()).centerCrop().fit()
-                        .into(photo_home_user);
+                 Picasso.with(HomeAct.this)
+                         .load(dataSnapshot.child("url_photo_profile")
+                                 .getValue().toString()).centerCrop().fit()
+                         .into(photo_home_user);
             }
 
             @Override
