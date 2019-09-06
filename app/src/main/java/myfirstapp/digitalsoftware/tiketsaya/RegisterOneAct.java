@@ -38,9 +38,10 @@ public class RegisterOneAct extends AppCompatActivity {
         username=findViewById(R.id.username);
         password=findViewById(R.id.password);
         email_address=findViewById(R.id.email_address);
-
-
         btn_continue=findViewById(R.id.btn_continue);
+
+
+       //ketika button diclick
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

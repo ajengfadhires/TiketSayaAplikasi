@@ -64,48 +64,69 @@ public class SignInAct extends AppCompatActivity {
                 final String username = xusername.getText().toString();
                 final String password = xpassword.getText().toString();
 
-                reference = FirebaseDatabase.getInstance().getReference()
-                        .child("Users").child(username);
-
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()){
-
-                            //ambil data password dari firebase
-                            String passwordFromFirebase = dataSnapshot.child("password").getValue().toString();
-
-                            //validasi password
-                            if(password.equals(passwordFromFirebase)){
-
-                             //simpan username (key) kepada local
-                                SharedPreferences sharedPreferences = getSharedPreferences(USERNAME_KEY, MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString(username_key, xusername.getText().toString());
-                                editor.apply();
-
-                                //pindah activity
-                                Intent gotohome = new Intent(SignInAct.this,HomeAct.class);
-                                startActivity(gotohome);
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(), "Password salah", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-
-                        else {
-                            Toast.makeText(getApplicationContext(), "Username tidak ada", Toast.LENGTH_SHORT).show();
-                        }
+                if(username.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Username kosong", Toast.LENGTH_SHORT).show();
+                    //ubah state menjadi 'loading' setelah ditekan
+                    btn_sign_in.setEnabled(true);
+                    btn_sign_in .setText("SIGN IN");
+                }
+                else {
+                    if(password.isEmpty()){
+                        Toast.makeText(getApplicationContext(), "Password kosong", Toast.LENGTH_SHORT).show();
+                        //ubah state menjadi 'loading' setelah ditekan
+                        btn_sign_in.setEnabled(true);
+                        btn_sign_in .setText("SIGN IN");
                     }
+                    else {
+                        reference = FirebaseDatabase.getInstance().getReference()
+                                .child("Users").child(username);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(getApplicationContext(), "Database error!", Toast.LENGTH_SHORT).show();
+                        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
 
+                                    //ambil data password dari firebase
+                                    String passwordFromFirebase = dataSnapshot.child("password").getValue().toString();
+
+                                    //validasi password
+                                    if(password.equals(passwordFromFirebase)){
+
+                                        //simpan username (key) kepada local
+                                        SharedPreferences sharedPreferences = getSharedPreferences(USERNAME_KEY, MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString(username_key, xusername.getText().toString());
+                                        editor.apply();
+
+                                        //pindah activity
+                                        Intent gotohome = new Intent(SignInAct.this,HomeAct.class);
+                                        startActivity(gotohome);
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "Password salah", Toast.LENGTH_SHORT).show();
+                                        //ubah state menjadi 'loading' setelah ditekan
+                                        btn_sign_in.setEnabled(true);
+                                        btn_sign_in .setText("SIGN IN");
+                                    }
+
+                                }
+
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Username tidak ada", Toast.LENGTH_SHORT).show();
+                                    //ubah state menjadi 'loading' setelah ditekan
+                                    btn_sign_in.setEnabled(true);
+                                    btn_sign_in .setText("SIGN IN");
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(getApplicationContext(), "Database error!", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
                     }
-                });
-
+                }
             }
         });
 

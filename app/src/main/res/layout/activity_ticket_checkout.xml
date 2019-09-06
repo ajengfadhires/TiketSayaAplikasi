@@ -90,20 +90,19 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/photo_spot"
+                    android:id="@+id/nama_wisata"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/mregular"
-                    android:text="Pisa Tower"
                     android:textColor="@color/blackPrimaryy"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/lokasi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/mlight"
-                    android:text="Pisa City, Italy"
                     android:textColor="@color/greyPrimary"
                     android:textSize="12sp" />
 
@@ -156,13 +155,12 @@
 
 
         <TextView
-            android:id="@+id/short_tos_ticket"
+            android:id="@+id/ketentuan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/mlight"
             android:lineSpacingExtra="5dp"
-            android:text="Fare applies to children age 3 and up"
             android:textColor="@color/greyPrimary"
             android:textSize="14sp" />
 
@@ -213,7 +211,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="USD177"
+                android:text="USD 0"
                 android:fontFamily="@font/mmedium"
                 android:textSize="14sp"
                 android:textColor="@color/biruku"

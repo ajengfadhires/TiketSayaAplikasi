@@ -25,10 +25,10 @@ public class TicketDetailsAct extends AppCompatActivity {
     Button btn_buy_ticket;
     TextView title_ticket, location_ticket, photo_spot,
             wifi_available, festival, short_desc_ticket;
-    ImageView header_ticket_detail;
 
     DatabaseReference reference;
 
+    ImageView header_ticket_detail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +46,11 @@ public class TicketDetailsAct extends AppCompatActivity {
         wifi_available = findViewById(R.id.wifi_available);
         festival = findViewById(R.id.festival);
         short_desc_ticket = findViewById(R.id.short_desc_ticket);
-        Picasso.with(TicketDetailsAct.this)
-                .load(dataSnapshot.child("url_thumbnail")
-                        .getValue().toString()).centerCrop().fit()
-                .into(header_ticket_detail);
+
 
         //mengambil data dari Intent
         Bundle bundle = getIntent().getExtras();
-        String jenis_tiket_baru = bundle.getString("jenis tiket");
+        final String jenis_tiket_baru = bundle.getString("jenis tiket");
 
         //ambil data dari firebase berdasarkan intent
         reference = FirebaseDatabase.getInstance().getReference().child("Wisata").child(jenis_tiket_baru);
@@ -67,6 +64,10 @@ public class TicketDetailsAct extends AppCompatActivity {
                 wifi_available.setText(dataSnapshot.child("is_wifi").getValue().toString());
                 festival.setText(dataSnapshot.child("is_festival").getValue().toString());
                 short_desc_ticket.setText(dataSnapshot.child("short_desc").getValue().toString());
+                Picasso.with(TicketDetailsAct.this)
+                        .load(dataSnapshot.child("url_thumbnail")
+                                .getValue().toString()).centerCrop().fit()
+                        .into(header_ticket_detail);
 
             }
 
@@ -76,16 +77,15 @@ public class TicketDetailsAct extends AppCompatActivity {
             }
         });
 
-
-
         btn_buy_ticket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent gotocheckout = new Intent(TicketDetailsAct.this,TicketCheckoutAct.class);
+                //meletakkan data kepada intent
+                gotocheckout.putExtra("jenis tiket", jenis_tiket_baru);
                 startActivity(gotocheckout);
             }
         });
-
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
